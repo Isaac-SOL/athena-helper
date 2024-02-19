@@ -1,0 +1,31 @@
+[gd_scene load_steps=7 format=3 uid="uid://b4k3vjms666vn"]
+
+[ext_resource type="Script" path="res://scripts/other_player.gd" id="1_rkw0c"]
+[ext_resource type="Texture2D" uid="uid://dgcxa43xp0up" path="res://icon.svg" id="1_y603x"]
+[ext_resource type="Texture2D" uid="uid://d1tab6aj54i5d" path="res://sprites/tank.png" id="2_ggpa5"]
+[ext_resource type="Texture2D" uid="uid://bcy5npxoy0ijh" path="res://sprites/healer.png" id="3_hgm33"]
+[ext_resource type="Texture2D" uid="uid://bs2obg6fyvulg" path="res://sprites/dps.png" id="4_hy7nh"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_f7qwx"]
+radius = 1.0
+
+[node name="OtherPlayer" type="Area2D"]
+collision_layer = 3
+script = ExtResource("1_rkw0c")
+speed = 73.143
+role_icons = Array[Texture2D]([ExtResource("2_ggpa5"), ExtResource("3_hgm33"), ExtResource("4_hy7nh")])
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+unique_name_in_owner = true
+z_index = 6
+texture_filter = 1
+scale = Vector2(2, 2)
+texture = ExtResource("1_y603x")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_f7qwx")
+
+[node name="RayCastLeft" type="RayCast2D" parent="."]
+unique_name_in_owner = true
+target_position = Vector2(-128, 0)
+collision_mask = 16

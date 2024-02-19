@@ -1,0 +1,48 @@
+[gd_scene load_steps=6 format=3 uid="uid://bo75f7wqymvj7"]
+
+[ext_resource type="Texture2D" uid="uid://gc26xeqc2hx4" path="res://sprites/gcd.png" id="1_3xlfp"]
+[ext_resource type="Texture2D" uid="uid://dgj2kydockqe0" path="res://sprites/press_anim.png" id="2_c5l76"]
+[ext_resource type="Script" path="res://scripts/action_button.gd" id="2_h7jb4"]
+[ext_resource type="Texture2D" uid="uid://bs3ovlbbqxe0f" path="res://sprites/cant_press.png" id="3_uaeo7"]
+[ext_resource type="Texture2D" uid="uid://cax08ldvr7gmy" path="res://sprites/gcd_timer.png" id="5_garl2"]
+
+[node name="ActionButton" type="TextureRect"]
+texture_filter = 1
+offset_left = 927.0
+offset_top = 478.0
+offset_right = 967.0
+offset_bottom = 518.0
+scale = Vector2(4, 4)
+texture = ExtResource("1_3xlfp")
+script = ExtResource("2_h7jb4")
+listen_to_input = &"GCD"
+
+[node name="GCDTimer" type="TextureProgressBar" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+fill_mode = 5
+nine_patch_stretch = true
+texture_progress = ExtResource("5_garl2")
+
+[node name="PressAnim" type="Sprite2D" parent="."]
+unique_name_in_owner = true
+visible = false
+position = Vector2(20, 20)
+scale = Vector2(1.25, 1.25)
+texture = ExtResource("2_c5l76")
+hframes = 4
+
+[node name="CantPress" type="Sprite2D" parent="."]
+unique_name_in_owner = true
+visible = false
+position = Vector2(20, 20)
+scale = Vector2(1.25, 1.25)
+texture = ExtResource("3_uaeo7")
+
+[connection signal="gui_input" from="." to="." method="_on_gui_input"]

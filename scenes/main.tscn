@@ -1,0 +1,481 @@
+[gd_scene load_steps=27 format=3 uid="uid://clsgo61shpsq5"]
+
+[ext_resource type="PackedScene" uid="uid://cb57la8nhigb5" path="res://scenes/arena.tscn" id="1_6m1lp"]
+[ext_resource type="Script" path="res://scripts/main.gd" id="1_40ge3"]
+[ext_resource type="PackedScene" uid="uid://cwo37jupce8cr" path="res://scenes/player_character.tscn" id="2_674ph"]
+[ext_resource type="PackedScene" uid="uid://crnp5urd5p2dq" path="res://scenes/tower.tscn" id="3_hwgc7"]
+[ext_resource type="Script" path="res://scripts/screenshake_camera.gd" id="4_hxih3"]
+[ext_resource type="PackedScene" uid="uid://b4k3vjms666vn" path="res://scenes/other_player.tscn" id="4_v5nd0"]
+[ext_resource type="PackedScene" uid="uid://c2crj5387ovpn" path="res://scenes/tether_angel.tscn" id="5_8yp8d"]
+[ext_resource type="PackedScene" uid="uid://xbuqdlefh3g4" path="res://scenes/athena.tscn" id="5_q1fip"]
+[ext_resource type="PackedScene" uid="uid://b3holwmorynkp" path="res://scenes/debuff.tscn" id="6_jntws"]
+[ext_resource type="FontFile" uid="uid://c1l0to5ny436j" path="res://kenney/Kenney Pixel.ttf" id="7_0eqxv"]
+[ext_resource type="PackedScene" uid="uid://ds5vmix6ppbug" path="res://scenes/cleave_angel.tscn" id="8_mh138"]
+[ext_resource type="Texture2D" uid="uid://d1tab6aj54i5d" path="res://sprites/tank.png" id="8_qa8nv"]
+[ext_resource type="Texture2D" uid="uid://bcy5npxoy0ijh" path="res://sprites/healer.png" id="9_mj8wy"]
+[ext_resource type="Texture2D" uid="uid://bs2obg6fyvulg" path="res://sprites/dps.png" id="10_bd4vs"]
+[ext_resource type="Texture2D" uid="uid://0x0v2jjxnlly" path="res://sprites/athena_scare.png" id="10_j4r44"]
+[ext_resource type="Texture2D" uid="uid://d03xfhw541c57" path="res://kenney/DPAD_all.png" id="14_7yw6p"]
+[ext_resource type="Texture2D" uid="uid://bb6qmk3w1lmg5" path="res://sprites/castbar_empty.png" id="14_tara8"]
+[ext_resource type="Texture2D" uid="uid://b8s2gatd6skef" path="res://sprites/castbar_fill.png" id="15_cpuc5"]
+[ext_resource type="PackedScene" uid="uid://bo75f7wqymvj7" path="res://scenes/action_button.tscn" id="17_srde8"]
+[ext_resource type="Texture2D" uid="uid://cvhogfk3niden" path="res://sprites/sprint.png" id="18_rtwd0"]
+[ext_resource type="AudioStream" uid="uid://bsjlky1h5gw1b" path="res://kenney/explosionCrunch_000.ogg" id="21_r4uco"]
+[ext_resource type="AudioStream" uid="uid://ckh0t3hke8ojw" path="res://amogus/Roundstart_MAIN.wav" id="22_kavva"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_lxn3r"]
+line_spacing = 0.0
+font_size = 28
+font_color = Color(1, 0, 0, 1)
+outline_size = 8
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_bxgou"]
+font_size = 48
+outline_size = 8
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_6qk7x"]
+radius = 70.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_nc46q"]
+size = Vector2(160, 160)
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_40ge3")
+other_player = ExtResource("4_v5nd0")
+tower = ExtResource("3_hwgc7")
+center_min_distance = 50.0
+center_max_distance = 160.0
+
+[node name="MainCamera" type="Camera2D" parent="."]
+unique_name_in_owner = true
+process_mode = 3
+position = Vector2(640, 360)
+position_smoothing_enabled = true
+position_smoothing_speed = 20.0
+script = ExtResource("4_hxih3")
+
+[node name="GameWorld" type="CanvasLayer" parent="."]
+follow_viewport_enabled = true
+
+[node name="Arena" parent="GameWorld" instance=ExtResource("1_6m1lp")]
+unique_name_in_owner = true
+z_index = -10
+position = Vector2(640, 360)
+
+[node name="Athena" parent="GameWorld" groups=["Athena"] instance=ExtResource("5_q1fip")]
+unique_name_in_owner = true
+position = Vector2(640, 360)
+
+[node name="Players" type="Node2D" parent="GameWorld"]
+unique_name_in_owner = true
+
+[node name="PlayerCharacter" parent="GameWorld/Players" instance=ExtResource("2_674ph")]
+unique_name_in_owner = true
+visible = false
+position = Vector2(708, 439)
+
+[node name="Tether Angels" type="Node2D" parent="GameWorld"]
+unique_name_in_owner = true
+
+[node name="Tether Angel" parent="GameWorld/Tether Angels" instance=ExtResource("5_8yp8d")]
+visible = false
+position = Vector2(682, 394)
+
+[node name="Tether Angel2" parent="GameWorld/Tether Angels" instance=ExtResource("5_8yp8d")]
+visible = false
+position = Vector2(619, 393)
+
+[node name="Tether Angel3" parent="GameWorld/Tether Angels" instance=ExtResource("5_8yp8d")]
+visible = false
+position = Vector2(679, 318)
+
+[node name="Tether Angel4" parent="GameWorld/Tether Angels" instance=ExtResource("5_8yp8d")]
+visible = false
+position = Vector2(619, 314)
+
+[node name="Angel Positions A" type="Node2D" parent="GameWorld"]
+unique_name_in_owner = true
+
+[node name="AngelPositionA1" type="Marker2D" parent="GameWorld/Angel Positions A"]
+position = Vector2(329, 293)
+
+[node name="AngelPositionA2" type="Marker2D" parent="GameWorld/Angel Positions A"]
+position = Vector2(946, 426)
+
+[node name="AngelPositionA3" type="Marker2D" parent="GameWorld/Angel Positions A"]
+position = Vector2(696, 58)
+
+[node name="AngelPositionA4" type="Marker2D" parent="GameWorld/Angel Positions A"]
+position = Vector2(594, 657)
+
+[node name="Angel Positions B" type="Node2D" parent="GameWorld"]
+unique_name_in_owner = true
+
+[node name="AngelPositionB1" type="Marker2D" parent="GameWorld/Angel Positions B"]
+position = Vector2(689, 660)
+
+[node name="AngelPositionB2" type="Marker2D" parent="GameWorld/Angel Positions B"]
+position = Vector2(577, 57)
+
+[node name="AngelPositionB3" type="Marker2D" parent="GameWorld/Angel Positions B"]
+position = Vector2(327, 413)
+
+[node name="AngelPositionB4" type="Marker2D" parent="GameWorld/Angel Positions B"]
+position = Vector2(948, 286)
+
+[node name="Cleave Angels" type="Node2D" parent="GameWorld"]
+unique_name_in_owner = true
+
+[node name="CleaveAngel" parent="GameWorld/Cleave Angels" instance=ExtResource("8_mh138")]
+visible = false
+position = Vector2(579, 358)
+
+[node name="CleaveAngel2" parent="GameWorld/Cleave Angels" instance=ExtResource("8_mh138")]
+visible = false
+position = Vector2(736, 355)
+
+[node name="Cleave Positions A" type="Node2D" parent="GameWorld"]
+unique_name_in_owner = true
+
+[node name="CleavePositionA1" type="Marker2D" parent="GameWorld/Cleave Positions A"]
+position = Vector2(576, 67)
+
+[node name="CleavePositionA2" type="Marker2D" parent="GameWorld/Cleave Positions A"]
+position = Vector2(830, 67)
+
+[node name="Cleave Positions B" type="Node2D" parent="GameWorld"]
+unique_name_in_owner = true
+
+[node name="CleavePositionB1" type="Marker2D" parent="GameWorld/Cleave Positions B"]
+position = Vector2(452, 64)
+
+[node name="CleavePositionB2" type="Marker2D" parent="GameWorld/Cleave Positions B"]
+position = Vector2(695, 69)
+
+[node name="Tether Positions A" type="Node2D" parent="GameWorld"]
+unique_name_in_owner = true
+
+[node name="TetherPositionA1" type="Marker2D" parent="GameWorld/Tether Positions A"]
+position = Vector2(780, 286)
+
+[node name="TetherPositionA2" type="Marker2D" parent="GameWorld/Tether Positions A"]
+position = Vector2(497, 419)
+
+[node name="TetherPositionA3" type="Marker2D" parent="GameWorld/Tether Positions A"]
+position = Vector2(701, 500)
+
+[node name="TetherPositionA4" type="Marker2D" parent="GameWorld/Tether Positions A"]
+position = Vector2(594, 212)
+
+[node name="Tether Positions B" type="Node2D" parent="GameWorld"]
+unique_name_in_owner = true
+
+[node name="TetherPositionB1" type="Marker2D" parent="GameWorld/Tether Positions B"]
+position = Vector2(694, 215)
+
+[node name="TetherPositionB2" type="Marker2D" parent="GameWorld/Tether Positions B"]
+position = Vector2(584, 501)
+
+[node name="TetherPositionB3" type="Marker2D" parent="GameWorld/Tether Positions B"]
+position = Vector2(783, 417)
+
+[node name="TetherPositionB4" type="Marker2D" parent="GameWorld/Tether Positions B"]
+position = Vector2(505, 286)
+
+[node name="Tower Positions" type="Node2D" parent="GameWorld"]
+unique_name_in_owner = true
+
+[node name="TowerPosition1" type="Marker2D" parent="GameWorld/Tower Positions"]
+position = Vector2(781, 219)
+
+[node name="TowerPosition2" type="Marker2D" parent="GameWorld/Tower Positions"]
+position = Vector2(504, 500)
+
+[node name="TowerPosition3" type="Marker2D" parent="GameWorld/Tower Positions"]
+position = Vector2(780, 506)
+
+[node name="TowerPosition4" type="Marker2D" parent="GameWorld/Tower Positions"]
+position = Vector2(510, 212)
+
+[node name="Towers" type="Node2D" parent="GameWorld"]
+unique_name_in_owner = true
+
+[node name="AthenaScare" type="Sprite2D" parent="GameWorld"]
+unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0)
+z_index = 20
+texture_filter = 1
+position = Vector2(640, 360)
+scale = Vector2(8, 8)
+texture = ExtResource("10_j4r44")
+
+[node name="Label" type="Label" parent="GameWorld/AthenaScare"]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -64.0
+offset_top = -96.0
+offset_right = 193.0
+offset_bottom = 161.0
+grow_horizontal = 2
+grow_vertical = 0
+scale = Vector2(0.25, 0.25)
+text = "You hit someone with a laser"
+label_settings = SubResource("LabelSettings_lxn3r")
+vertical_alignment = 2
+autowrap_mode = 2
+
+[node name="UI" type="CanvasLayer" parent="."]
+layer = 2
+
+[node name="Buffs" type="Label" parent="UI"]
+offset_left = 968.0
+offset_top = 20.0
+offset_right = 1210.0
+offset_bottom = 111.0
+text = "Buffs
+"
+label_settings = SubResource("LabelSettings_bxgou")
+horizontal_alignment = 1
+
+[node name="Buff" parent="UI" instance=ExtResource("6_jntws")]
+unique_name_in_owner = true
+visible = false
+offset_left = 1025.0
+offset_top = 84.0
+offset_right = 1153.0
+offset_bottom = 212.0
+pivot_offset = Vector2(64, 0)
+
+[node name="Debuffs" type="Label" parent="UI"]
+offset_left = 968.0
+offset_top = 236.0
+offset_right = 1210.0
+offset_bottom = 327.0
+text = "Debuffs"
+label_settings = SubResource("LabelSettings_bxgou")
+horizontal_alignment = 1
+
+[node name="Debuff" parent="UI" instance=ExtResource("6_jntws")]
+unique_name_in_owner = true
+visible = false
+offset_left = 1025.0
+offset_top = 308.0
+offset_right = 1153.0
+offset_bottom = 436.0
+pivot_offset = Vector2(64, 0)
+
+[node name="RolePicker" type="Control" parent="UI"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 56.0
+offset_top = 86.0
+offset_right = 302.0
+offset_bottom = 420.0
+
+[node name="PickYourRole" type="Label" parent="UI/RolePicker"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -121.0
+offset_right = 121.0
+offset_bottom = 91.0
+grow_horizontal = 2
+text = "Pick Your
+Role"
+label_settings = SubResource("LabelSettings_bxgou")
+horizontal_alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/RolePicker"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -189.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="ButtonTank" type="Button" parent="UI/RolePicker/VBoxContainer"]
+texture_filter = 1
+layout_mode = 2
+theme_override_fonts/font = ExtResource("7_0eqxv")
+theme_override_font_sizes/font_size = 64
+text = "Tank"
+icon = ExtResource("8_qa8nv")
+expand_icon = true
+
+[node name="ButtonHealer" type="Button" parent="UI/RolePicker/VBoxContainer"]
+texture_filter = 1
+layout_mode = 2
+theme_override_fonts/font = ExtResource("7_0eqxv")
+theme_override_font_sizes/font_size = 64
+text = "Healer"
+icon = ExtResource("9_mj8wy")
+expand_icon = true
+
+[node name="ButtonDPS" type="Button" parent="UI/RolePicker/VBoxContainer"]
+texture_filter = 1
+layout_mode = 2
+theme_override_fonts/font = ExtResource("7_0eqxv")
+theme_override_font_sizes/font_size = 64
+text = "DPS"
+icon = ExtResource("10_bd4vs")
+expand_icon = true
+
+[node name="ButtonRestart" type="Button" parent="UI"]
+process_mode = 3
+visible = false
+texture_filter = 1
+offset_left = 21.0
+offset_top = 20.0
+offset_right = 189.0
+offset_bottom = 76.0
+theme_override_fonts/font = ExtResource("7_0eqxv")
+theme_override_font_sizes/font_size = 64
+text = "Restart"
+expand_icon = true
+
+[node name="CastBar" type="TextureProgressBar" parent="UI"]
+unique_name_in_owner = true
+visible = false
+texture_filter = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -256.0
+offset_top = -82.0
+offset_right = -128.0
+offset_bottom = -72.0
+grow_horizontal = 2
+grow_vertical = 0
+scale = Vector2(4, 4)
+value = 50.0
+texture_under = ExtResource("14_tara8")
+texture_progress = ExtResource("15_cpuc5")
+
+[node name="CastLabel" type="Label" parent="UI/CastBar"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 1.25
+offset_right = 128.0
+offset_bottom = 20.25
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.5, 0.5)
+theme_override_colors/font_color = Color(0.901961, 0.870588, 0.784314, 1)
+theme_override_colors/font_outline_color = Color(0.160784, 0.137255, 0.0705882, 1)
+theme_override_constants/outline_size = 2
+theme_override_font_sizes/font_size = 18
+text = "Engravement of Souls"
+horizontal_alignment = 2
+
+[node name="GCDButton" parent="UI" instance=ExtResource("17_srde8")]
+unique_name_in_owner = true
+
+[node name="SprintButton" parent="UI" instance=ExtResource("17_srde8")]
+unique_name_in_owner = true
+offset_left = 1095.0
+offset_right = 1135.0
+texture = ExtResource("18_rtwd0")
+is_gcd = false
+listen_to_input = &"sprint"
+
+[node name="GCDCount" type="Label" parent="UI"]
+unique_name_in_owner = true
+offset_left = 887.0
+offset_top = 640.0
+offset_right = 1129.0
+offset_bottom = 731.0
+text = "0 / 0"
+label_settings = SubResource("LabelSettings_bxgou")
+horizontal_alignment = 1
+
+[node name="GCDTimer" type="Timer" parent="UI/GCDCount"]
+unique_name_in_owner = true
+wait_time = 2.5
+
+[node name="MobileUI" type="CanvasLayer" parent="."]
+
+[node name="DPAD_fake" type="TouchScreenButton" parent="MobileUI"]
+texture_filter = 1
+position = Vector2(89, 481)
+scale = Vector2(4, 4)
+texture_normal = ExtResource("14_7yw6p")
+visibility_mode = 1
+
+[node name="UpButton" type="TouchScreenButton" parent="MobileUI"]
+position = Vector2(189, 536)
+shape = SubResource("CircleShape2D_6qk7x")
+passby_press = true
+action = "up"
+visibility_mode = 1
+
+[node name="DownButton" type="TouchScreenButton" parent="MobileUI"]
+position = Vector2(189, 634)
+shape = SubResource("CircleShape2D_6qk7x")
+passby_press = true
+action = "down"
+visibility_mode = 1
+
+[node name="LeftButton" type="TouchScreenButton" parent="MobileUI"]
+position = Vector2(140, 585)
+shape = SubResource("CircleShape2D_6qk7x")
+passby_press = true
+action = "left"
+visibility_mode = 1
+
+[node name="RightButton" type="TouchScreenButton" parent="MobileUI"]
+position = Vector2(238, 585)
+shape = SubResource("CircleShape2D_6qk7x")
+passby_press = true
+action = "right"
+visibility_mode = 1
+
+[node name="GCDMobileButton" type="TouchScreenButton" parent="MobileUI"]
+position = Vector2(1006, 558)
+shape = SubResource("RectangleShape2D_nc46q")
+action = "GCD"
+visibility_mode = 1
+
+[node name="SprintMobileButton" type="TouchScreenButton" parent="MobileUI"]
+position = Vector2(1174, 559)
+shape = SubResource("RectangleShape2D_nc46q")
+action = "sprint"
+visibility_mode = 1
+
+[node name="AudioLose" type="AudioStreamPlayer" parent="."]
+unique_name_in_owner = true
+process_mode = 3
+stream = ExtResource("21_r4uco")
+volume_db = -18.0
+
+[node name="AudioImpostor" type="AudioStreamPlayer" parent="."]
+unique_name_in_owner = true
+process_mode = 3
+stream = ExtResource("22_kavva")
+volume_db = -24.0
+
+[connection signal="pressed" from="UI/RolePicker/VBoxContainer/ButtonTank" to="UI/RolePicker" method="queue_free"]
+[connection signal="pressed" from="UI/RolePicker/VBoxContainer/ButtonTank" to="." method="pick_role" binds= [0]]
+[connection signal="pressed" from="UI/RolePicker/VBoxContainer/ButtonTank" to="UI/ButtonRestart" method="set_visible" binds= [true]]
+[connection signal="pressed" from="UI/RolePicker/VBoxContainer/ButtonHealer" to="UI/RolePicker" method="queue_free"]
+[connection signal="pressed" from="UI/RolePicker/VBoxContainer/ButtonHealer" to="." method="pick_role" binds= [1]]
+[connection signal="pressed" from="UI/RolePicker/VBoxContainer/ButtonHealer" to="UI/ButtonRestart" method="set_visible" binds= [true]]
+[connection signal="pressed" from="UI/RolePicker/VBoxContainer/ButtonDPS" to="UI/RolePicker" method="queue_free"]
+[connection signal="pressed" from="UI/RolePicker/VBoxContainer/ButtonDPS" to="." method="pick_role" binds= [2]]
+[connection signal="pressed" from="UI/RolePicker/VBoxContainer/ButtonDPS" to="UI/ButtonRestart" method="set_visible" binds= [true]]
+[connection signal="pressed" from="UI/ButtonRestart" to="." method="restart"]
+[connection signal="pressed" from="UI/GCDButton" to="." method="_on_gcd_button_pressed"]
+[connection signal="pressed" from="UI/SprintButton" to="." method="_on_sprint_button_pressed"]
+[connection signal="timeout" from="UI/GCDCount/GCDTimer" to="." method="_on_gcd_timer_timeout"]

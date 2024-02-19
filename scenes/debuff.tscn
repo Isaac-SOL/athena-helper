@@ -1,0 +1,54 @@
+[gd_scene load_steps=9 format=3 uid="uid://b3holwmorynkp"]
+
+[ext_resource type="Texture2D" uid="uid://dgcxa43xp0up" path="res://icon.svg" id="1_htqk6"]
+[ext_resource type="Script" path="res://scripts/debuff.gd" id="2_phe57"]
+[ext_resource type="Texture2D" uid="uid://bw4i7j8424fpl" path="res://sprites/light_tower.png" id="3_373a7"]
+[ext_resource type="Texture2D" uid="uid://db0hopm1d8l7o" path="res://sprites/dark_tower.png" id="4_ryf4y"]
+[ext_resource type="Texture2D" uid="uid://contfj6ar3gfr" path="res://sprites/light_person.png" id="5_ra43n"]
+[ext_resource type="Texture2D" uid="uid://bbw2kta34jkac" path="res://sprites/dark_person.png" id="6_qii7d"]
+[ext_resource type="Texture2D" uid="uid://c27x6evpmq3an" path="res://sprites/sprint_buff.png" id="7_q8g3r"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_x8byq"]
+font_size = 64
+outline_size = 12
+outline_color = Color(0, 0, 0, 1)
+
+[node name="Debuff" type="TextureRect"]
+texture_filter = 1
+offset_left = 1016.0
+offset_top = 519.0
+offset_right = 1144.0
+offset_bottom = 647.0
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("1_htqk6")
+script = ExtResource("2_phe57")
+light_tower_texture = ExtResource("3_373a7")
+dark_tower_texture = ExtResource("4_ryf4y")
+light_person_texture = ExtResource("5_ra43n")
+dark_person_texture = ExtResource("6_qii7d")
+sprint_texture = ExtResource("7_q8g3r")
+
+[node name="Label" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -50.0
+offset_top = -51.0
+offset_right = 50.0
+offset_bottom = 40.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "12"
+label_settings = SubResource("LabelSettings_x8byq")
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="Timer" type="Timer" parent="."]
+unique_name_in_owner = true
+one_shot = true
+
+[connection signal="timeout" from="Timer" to="." method="set_visible" binds= [false]]

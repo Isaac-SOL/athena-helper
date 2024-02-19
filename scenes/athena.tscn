@@ -1,0 +1,25 @@
+[gd_scene load_steps=5 format=3 uid="uid://xbuqdlefh3g4"]
+
+[ext_resource type="Script" path="res://scripts/athena.gd" id="1_31qrg"]
+[ext_resource type="Texture2D" uid="uid://dvpntp6l7am1r" path="res://sprites/athena_circle.png" id="1_rynps"]
+[ext_resource type="Texture2D" uid="uid://b4xu27lflwbl8" path="res://sprites/p12s_athena.png" id="2_vqo2i"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_wmemy"]
+radius = 160.0
+
+[node name="Athena" type="Area2D"]
+texture_filter = 1
+script = ExtResource("1_31qrg")
+
+[node name="Circle" type="Sprite2D" parent="."]
+scale = Vector2(2, 2)
+texture = ExtResource("1_rynps")
+
+[node name="MainSprite" type="Sprite2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(9, -5)
+scale = Vector2(2, 2)
+texture = ExtResource("2_vqo2i")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_wmemy")

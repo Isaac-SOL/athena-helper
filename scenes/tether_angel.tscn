@@ -1,0 +1,93 @@
+[gd_scene load_steps=13 format=3 uid="uid://c2crj5387ovpn"]
+
+[ext_resource type="Script" path="res://scripts/tether_angel.gd" id="2_oma74"]
+[ext_resource type="Texture2D" uid="uid://drxkqtffdunin" path="res://sprites/p12s_angels.png" id="2_qebxg"]
+[ext_resource type="Texture2D" uid="uid://br0oc2w61pohb" path="res://sprites/tether_middle.png" id="3_61lf3"]
+[ext_resource type="Texture2D" uid="uid://hvks1oxbe3qe" path="res://sprites/p12s_blucrystal.png" id="3_g0kji"]
+[ext_resource type="Script" path="res://scripts/tether_animator.gd" id="3_i7066"]
+[ext_resource type="PackedScene" uid="uid://drnx486enkfkq" path="res://scenes/tether_arrow.tscn" id="4_6k0ok"]
+[ext_resource type="Shader" path="res://shaders/tether_angel.gdshader" id="7_tk4fn"]
+[ext_resource type="Texture2D" uid="uid://2cipqaddb20f" path="res://sprites/laser_black.png" id="8_40k6d"]
+[ext_resource type="Texture2D" uid="uid://b7bmt2dd1f1qt" path="res://sprites/laser_white.png" id="8_ex61u"]
+
+[sub_resource type="Curve2D" id="Curve2D_hurqf"]
+resource_local_to_scene = true
+bake_interval = 128.0
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 400, 0)
+}
+point_count = 2
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ywoay"]
+size = Vector2(28, 600)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jt25q"]
+shader = ExtResource("7_tk4fn")
+shader_parameter/time_factor = 1.5
+shader_parameter/repetitions = 4.0
+
+[node name="TetherAngel" type="Node2D"]
+script = ExtResource("2_oma74")
+angel_sprite = ExtResource("2_qebxg")
+light_color = Color(0.890196, 0.882353, 0, 1)
+dark_color = Color(0.780392, 0.109804, 1, 1)
+light_laser = ExtResource("8_ex61u")
+dark_laser = ExtResource("8_40k6d")
+speed = 600.0
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+unique_name_in_owner = true
+z_index = 15
+texture_filter = 1
+texture = ExtResource("3_g0kji")
+
+[node name="Line2D" type="Line2D" parent="."]
+unique_name_in_owner = true
+visible = false
+z_index = 2
+points = PackedVector2Array(0, 0, 100, 0)
+width = 4.0
+
+[node name="Path2D" type="Path2D" parent="."]
+unique_name_in_owner = true
+visible = false
+texture_filter = 1
+curve = SubResource("Curve2D_hurqf")
+script = ExtResource("3_i7066")
+arrow = ExtResource("4_6k0ok")
+
+[node name="MiddlePathFollow" type="PathFollow2D" parent="Path2D"]
+position = Vector2(48.9, 0)
+progress = 50.0
+
+[node name="Sprite2D" type="Sprite2D" parent="Path2D/MiddlePathFollow"]
+scale = Vector2(2, 2)
+texture = ExtResource("3_61lf3")
+
+[node name="Generator" type="Timer" parent="Path2D"]
+wait_time = 0.4
+autostart = true
+
+[node name="Laser" type="Node2D" parent="."]
+unique_name_in_owner = true
+
+[node name="LaserArea" type="Area2D" parent="Laser"]
+unique_name_in_owner = true
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Laser/LaserArea"]
+position = Vector2(300, 0)
+rotation = -1.5708
+shape = SubResource("RectangleShape2D_ywoay")
+
+[node name="LaserSprite" type="Sprite2D" parent="Laser"]
+unique_name_in_owner = true
+z_index = 11
+texture_filter = 1
+material = SubResource("ShaderMaterial_jt25q")
+position = Vector2(600, 0)
+rotation = -1.5708
+scale = Vector2(1e-05, 18.75)
+texture = ExtResource("8_ex61u")
+
+[connection signal="timeout" from="Path2D/Generator" to="Path2D" method="_on_generator_timeout"]
